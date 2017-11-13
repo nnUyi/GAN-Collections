@@ -16,6 +16,7 @@
   (1)download this repo to your own directory
   
     $ git clone https://github.com/nnUyi/GAN-Collections.git
+    $ cd GAN-Collections
     
   (2)download celebA dataset and store it in the data directory(directory named **data**)
       
