@@ -22,8 +22,9 @@
    - celebA datasets is cropping into 64*64 size with *.png or *jpg format, this repo read image format data as input.
       
   (3)training
-  
-    $ python main_**gan_type**.py --is_training=True # you can run any gan models using main_**gan_type** like python main_wgan.py --is_training=True
+    
+    #you can run any gan models using main_**gan_type** like python main_wgan.py --is_training=True
+    $ python main_**gan_type**.py --is_training=True 
   
   (4)testing
     
