@@ -17,9 +17,9 @@
   
     $ git clone https://github.com/nnUyi/GAN-Collections.git
     
-  (2)download celebA dataset and store it in the data directory(directory named data)
+  (2)download celebA dataset and store it in the data directory(directory named **data**)
       
-   - celebA datasets is cropping into 64*64 size with *.png or *jpg format, this repo read image format data as input.
+   - celebA datasets is cropping into **64*64 size** with *.png or *jpg format, this repo read image format data as input.
       
   (3)training
     
