@@ -1,5 +1,5 @@
 # GAN-Collections
-  A implement of GAN-collection for tensorflow version. WGAN, WGAN_GP, LSGAN etc. More GAN models will be added to this repo. 
+  A implement of GAN-collection for tensorflow version. WGAN, WGAN_GP, LSGAN, VAE_GAN etc. More GAN models will be added to this repo. 
 
 # Requirements
 
@@ -26,6 +26,8 @@
     
     #you can run any gan models using main_**gan_type** like python main_wgan.py --is_training=True
     $ python main_**gan_type**.py --is_training=True 
+    #example
+    $ python main_vaegan.py --is_training=True 
   
   (4)testing
     
