@@ -95,7 +95,7 @@ class WGAN:
             h_fc1 = leaky_relu(batch_norm(linear(h_conv3_flat, 1024, scope_name='d_fc1'), is_training=is_training, name='d_bn_fc1'))
             
             # hidden layer_4 fully connected
-            h_fc2_sigmoid = tf.nn.sigmoid(linear(h_fc1, 1, scope_name='d_fc2'))
+            h_fc2_sigmoid = linear(h_fc1, 1, scope_name='d_fc2')
             
             return h_fc2_sigmoid
 
