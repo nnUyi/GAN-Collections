@@ -33,6 +33,11 @@
     
    - Anyway, in this repo, testing processing is taken during training, It samples the training results to the sample(named sample) directory, and stores session in the checkpoint(named checkpoint) directory.
 
+# Experimental Results
+  <p align='center'><img src='train_15_0000.png'/></p>
+  
+  The experimental results is produced by BEGAN after 15 epoches training, we can clearly see that, BEGAN is stable. During training process, no collapses happend.
+  
 # Contacts
 
   Email:computerscienceyyz@163.com, Thank you for contacting if you find something wrong or if you have some problems!!!
