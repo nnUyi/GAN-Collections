@@ -1,5 +1,5 @@
 # GAN-Collections
-  A implement of GAN-collection for tensorflow version. WGAN, WGAN_GP, LSGAN, VAE_GAN, BEGAN etc. More GAN models will be added to this repo. 
+  A implement of GAN-collection for tensorflow version. WGAN, WGAN_GP, LSGAN, VAE_GAN, BEGAN, EBGAN etc. More GAN models will be added to this repo. 
 
 # Requirements
 
