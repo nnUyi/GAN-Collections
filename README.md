@@ -1,5 +1,5 @@
 # GAN-Collections
-  A implement of GAN-collection for tensorflow version. WGAN, WGAN_GP, LSGAN, VAE_GAN, BEGAN, EBGAN etc. More GAN models will be added to this repo. 
+  A implement of GAN-collection for tensorflow version. DCGAN, WGAN, WGAN_GP, LSGAN, VAE_GAN, BEGAN, EBGAN etc. More GAN models will be added to this repo. 
 
 # Requirements
 
@@ -40,4 +40,4 @@
   
 # Contacts
 
-  Email:computerscienceyyz@163.com, Thank you for contacting if you find something wrong or if you have some problems!!!
+  Email:computerscienceyyz@163.com
