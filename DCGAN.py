@@ -44,11 +44,11 @@ class DCGAN:
             s_h8, s_w8 = conv_out_size_same(s_h4, 2), conv_out_size_same(s_w4, 2)
             s_h16, s_w16 = conv_out_size_same(s_h8, 2), conv_out_size_same(s_w8, 2)
             
-            #fc1_bn = tf.nn.relu(batch_norm(linear(noise_z, 1024, scope_name='g_fc1'), is_training=is_training, name='g_fc1_bn'))
             fc2 = linear(noise_z, s_h16*s_w16*self.gf_dim*8, scope_name='g_fc2')
             fc2_reshape = tf.reshape(fc2, [-1, s_h16, s_w16, self.gf_dim*8])
             fc2_deconv = tf.nn.relu(batch_norm(fc2_reshape, is_training=is_training, name='g_fc2_bn'))
             print("deconv2d_1:", fc2_deconv)
+            
             # deconv layer_2
             filter_shape2 = [5, 5, self.gf_dim*4, self.gf_dim*8]
             output_shape2 = [self.batchsize, s_h8, s_w8, self.gf_dim*4]
@@ -97,14 +97,12 @@ class DCGAN:
             # hidden layer_3
             h_conv3 = leaky_relu(batch_norm(conv2d(h_conv2, shape3, scope_name='d_conv3'), is_training=is_training, name='d_bn_conv3'))
             print("h_conv2_3", h_conv3)
-
+            
+            # hidden layer4
             h_conv4 = leaky_relu(batch_norm(conv2d(h_conv3, shape4, scope_name='d_conv4'), is_training=is_training, name='d_bn_conv4'))
             print("h_conv2_4", h_conv4)            
-
-            h_conv4_flat = tf.reshape(h_conv4, [self.batchsize, -1])
-            # h_fc1 = leaky_relu(batch_norm(linear(h_conv4_flat, 1024, scope_name='d_fc1'), is_training=is_training, name='d_bn_fc1'))
-            # h_fc1 = tf.nn.sigmoid(linear(h_conv4_flat, 1024, scope_name='d_fc1'))
             
+            h_conv4_flat = tf.reshape(h_conv4, [self.batchsize, -1])
             # hidden layer_4 fully connected
             h_fc1_sigmoid = tf.nn.sigmoid(linear(h_conv4_flat, 1024, scope_name='d_fc1'))
             
@@ -139,9 +137,7 @@ class DCGAN:
         
         self.g_loss = tf.reduce_mean(sigmoid_cross_entropy_with_logits(self.D_fake, tf.ones_like(self.D_fake)))
         self.d_loss = self.d_loss_real + self.d_loss_fake
-        #self.d_loss_real_sum = scalar_summary("d_loss_real", self.d_loss_real)
-        #self.d_loss_fake_sum = scalar_summary("d_loss_fake", self.d_loss_fake)                 
-        
+
         # save model
         t_vars = tf.trainable_variables()
         self.d_vars = [var for var in t_vars if 'd_' in var.name]
@@ -164,14 +160,7 @@ class DCGAN:
         sample_data = glob(os.path.join("./data", self.dataset_name, self.input_fname_pattern))
         print(len(sample_data))
         sample_files = sample_data[0:self.batchsize]
-        sample_batch_x = [
-                    get_image(sample_file,
-                        #input_height=self.input_height,
-                        #input_width=self.input_width,
-                        #resize_height=self.output_height,
-                        #resize_width=self.output_width,
-                        #is_crop=self.is_crop,
-                        is_grayscale=self.is_grayscale) for sample_file in sample_files]
+        sample_batch_x = [get_image(sample_file,is_grayscale=self.is_grayscale) for sample_file in sample_files]
         if (self.is_grayscale):
             sample_batch_x = np.array(sample_batch_x).astype(np.float32)[:, :, :, None]
         else:
@@ -196,14 +185,7 @@ class DCGAN:
             for idx in range(batch_idxs):
                 batch_files = data[idx*self.batchsize:(idx+1)*self.batchsize]
                 # load data from datasets
-                batch = [
-                    get_image(batch_file,
-                        #input_height=self.input_height,
-                        #input_width=self.input_width,
-                        #resize_height=self.output_height,
-                        #resize_width=self.output_width,
-                        #is_crop=self.is_crop,
-                        is_grayscale=self.is_grayscale) for batch_file in batch_files]
+                batch = [get_image(batch_file,is_grayscale=self.is_grayscale) for batch_file in batch_files]
                 if (self.is_grayscale):
                     batch_x = np.array(batch).astype(np.float32)[:, :, :, None]
                 else:
