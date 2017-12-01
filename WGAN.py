@@ -49,19 +49,19 @@ class WGAN:
             fc2_deconv = tf.reshape(fc2_bn, [-1, s_h8, s_w8, self.gf_dim*2])
             print("deconv2d_1:", fc2_deconv)
             
-		    # deconv layer_2
+            # deconv layer_2
             filter_shape2 = [4, 4, self.gf_dim*4, self.gf_dim*2]
             output_shape2 = [self.batchsize, s_h4, s_w4, self.gf_dim*4]
             h_deconv2 = tf.nn.relu(batch_norm(deconv2d(fc2_deconv, filter_shape2, output_shape2, scope_name='g_deconv2'), is_training=is_training, name='g_bn_deconv2'))
             print("deconv2d_2:",h_deconv2)
             
-		    # deconv layer_3
+	    # deconv layer_3
             filter_shape3 = [4,4,self.gf_dim*2, self.gf_dim*4]
             output_shape3 = [self.batchsize, s_h2, s_w2, self.gf_dim*2]
             h_deconv3 = tf.nn.relu(batch_norm(deconv2d(h_deconv2, filter_shape3,output_shape3, scope_name='g_deconv3'), is_training=is_training, name='g_bn_deconv3'))
-            
             print("deconv2d_3:", h_deconv3)
-	        # deconv layer_4
+	
+	    # deconv layer_4
             filter_shape4 = [4,4,self.input_channels, self.gf_dim*2]
             output_shape4 = [self.batchsize, s_h, s_w, self.input_channels]
             h_deconv4 = tf.nn.tanh(deconv2d(h_deconv3, filter_shape4, output_shape4, scope_name='g_deconv4'))
@@ -115,15 +115,12 @@ class WGAN:
         self.G_sample = self.generator(self.z, is_training=True, reuse=False)
         self.D_fake = self.discriminator(self.G_sample, is_training=True, reuse=True)
         # sample images
-        #Sself.sample_images = self.generator(self.z, reuse=True)
         
         self.d_loss_real = -tf.reduce_mean(self.D_real)
         self.d_loss_fake = tf.reduce_mean(self.D_fake)
         
         self.d_loss = self.d_loss_fake + self.d_loss_real
         self.g_loss = -tf.reduce_mean(self.D_fake)
-        #self.d_loss_real_sum = scalar_summary("d_loss_real", self.d_loss_real)
-        #self.d_loss_fake_sum = scalar_summary("d_loss_fake", self.d_loss_fake)                 
         
         # save model
         t_vars = tf.trainable_variables()
@@ -149,14 +146,7 @@ class WGAN:
         sample_data = glob(os.path.join("./data", self.dataset_name, self.input_fname_pattern))
         print(len(sample_data))
         sample_files = sample_data[0:self.batchsize]
-        sample_batch_x = [
-                    get_image(sample_file,
-                        #input_height=self.input_height,
-                        #input_width=self.input_width,
-                        #resize_height=self.output_height,
-                        #resize_width=self.output_width,
-                        #is_crop=self.is_crop,
-                        is_grayscale=self.is_grayscale) for sample_file in sample_files]
+        sample_batch_x = [get_image(sample_file,is_grayscale=self.is_grayscale) for sample_file in sample_files]
         if (self.is_grayscale):
             sample_batch_x = np.array(sample_batch_x).astype(np.float32)[:, :, :, None]
         else:
@@ -181,14 +171,7 @@ class WGAN:
             for idx in range(batch_idxs):
                 batch_files = data[idx*self.batchsize:(idx+1)*self.batchsize]
                 # load data from datasets
-                batch = [
-                    get_image(batch_file,
-                        #input_height=self.input_height,
-                        #input_width=self.input_width,
-                        #resize_height=self.output_height,
-                        #resize_width=self.output_width,
-                        #is_crop=self.is_crop,
-                        is_grayscale=self.is_grayscale) for batch_file in batch_files]
+                batch = [get_image(batch_file,is_grayscale=self.is_grayscale) for batch_file in batch_files]
                 if (self.is_grayscale):
                     batch_x = np.array(batch).astype(np.float32)[:, :, :, None]
                 else:

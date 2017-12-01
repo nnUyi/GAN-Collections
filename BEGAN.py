@@ -127,19 +127,19 @@ class BEGAN:
             fc2_deconv = tf.reshape(fc1_bn, [-1, s_h8, s_w8, self.gf_dim*8])
             print("deconv2d_1:", fc2_deconv)
             
-		    # deconv layer_2
+            # deconv layer_2
             filter_shape2 = [5, 5, self.gf_dim*4, self.gf_dim*8]
             output_shape2 = [self.batchsize, s_h4, s_w4, self.gf_dim*4]
             h_deconv2 = tf.nn.relu(batch_norm(deconv2d(fc2_deconv, filter_shape2, output_shape2, scope_name='g_deconv2'), is_training=is_training, name='g_bn_deconv2'))
             print("deconv2d_2:",h_deconv2)
             
-		    # deconv layer_3
+	    # deconv layer_3
             filter_shape3 = [5,5,self.gf_dim*2, self.gf_dim*4]
             output_shape3 = [self.batchsize, s_h2, s_w2, self.gf_dim*2]
             h_deconv3 = tf.nn.relu(batch_norm(deconv2d(h_deconv2, filter_shape3, output_shape3, scope_name='g_deconv3'), is_training=is_training, name='g_bn_deconv3'))
-            
             print("deconv2d_3:", h_deconv3)
-	        # deconv layer_4
+	
+	    # deconv layer_4
             filter_shape4 = [5,5, self.input_channels, self.gf_dim*2]
             output_shape4 = [self.batchsize, s_h, s_w, self.input_channels]
             h_deconv4 = tf.nn.tanh(deconv2d(h_deconv3, filter_shape4, output_shape4, scope_name='g_deconv4'))
@@ -171,12 +171,6 @@ class BEGAN:
         self.g_vars = [var for var in t_vars if 'g_' in var.name]
         
         self.sample_images = self.generator(self.z, is_training=False, reuse=True)
-        #self.d_loss_real_sum = scalar_summary("d_loss_real", self.d_loss_real)
-        #self.d_loss_fake_sum = scalar_summary("d_loss_fake", self.d_loss_fake)                 
-        
-        #self.d_optimization = tf.train.RMSPropOptimizer(learning_rate=self.learning_rate).minimize(self.d_loss, var_list=self.d_vars)
-        #self.g_optimization = tf.train.RMSPropOptimizer(learning_rate=self.learning_rate).minimize(self.g_loss, var_list=self.g_vars)
-        #self.encoder_optimization = tf.train.AdamOptimizer(self.learning_rate, beta1=self.beta1).minimize(self.loss)
         self.d_optimization = tf.train.RMSPropOptimizer(learning_rate=self.learning_rate).minimize(self.d_loss, var_list=self.d_vars)
         self.g_optimization = tf.train.RMSPropOptimizer(learning_rate=self.learning_rate).minimize(self.g_loss, var_list=self.g_vars)
         # saver for saving model
