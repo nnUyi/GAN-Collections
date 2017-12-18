@@ -104,9 +104,9 @@ class DCGAN:
             
             h_conv4_flat = tf.reshape(h_conv4, [self.batchsize, -1])
             # hidden layer_4 fully connected
-            h_fc1_sigmoid = tf.nn.sigmoid(linear(h_conv4_flat, 1024, scope_name='d_fc1'))
+            h_fc1 = linear(h_conv4_flat, 1024, scope_name='d_fc1')
             
-            return h_fc1_sigmoid
+            return h_fc1
 
     def build_model(self):
         # crop image
