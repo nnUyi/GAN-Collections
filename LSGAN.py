@@ -6,7 +6,7 @@ from ops import *
 from glob import glob
 
 class LSGAN:
-    model_name = 'LSWGAN'
+    model_name = 'LSGAN'
     
     def __init__(self, input_height=64, input_width=64, input_channels=1, output_height=64, output_width=64, gf_dim=64, df_dim=64, batchsize=64, z_dim = 100, is_crop=False, learning_rate=5e-5  , beta1=0.5, input_fname_pattern = '*.jpg', is_grayscale=False, dataset_name = 'celebA', checkpoint_dir = './checkpoint', sample_dir = 'sample', epoch = 30, sess=None):
         self.input_height = input_height
